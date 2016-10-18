@@ -1,11 +1,15 @@
 from threading import Thread
 from redis import StrictRedis, ConnectionPool
 
-R = StrictRedis(ConnectionPool({'host':'redis-13034.lace.demo-rlec.redislabs.com',
-                 'port':13034}))
+NUMBER_OF_CONNECTIONS = 10
+
+R = lambda: StrictRedis(ConnectionPool({'host':'redis-13034.lace.demo-rlec.redislabs.com',
+                                        'port':13034, max_connections=NUMBER_OF_CONNECTIONS}))
 
 def hello_dummy():
-    print 'hi!'
+    r = R()
+    print r.set('foo', 'bar')
+    print r.get('foo')
 
 
 if __name__ == '__main__':
