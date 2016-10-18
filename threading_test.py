@@ -9,6 +9,7 @@ NUMBER_OF_CONNECTIONS = 1
 NUMBER_OF_THREADS = 100
 NUMBER_OF_KEYS = 1000
 SIZE_OF_VALUE = 8*10*1024
+PIPELINE_FACTOR = 50
 
 GUIDS = []
 
@@ -18,8 +19,14 @@ R = lambda: StrictRedis(connection_pool=ConnectionPool(**{'host':'redis-13034.la
 
 def hello_dummy():
     r = R()
+    p = r.pipeline()
+    i = 0
     while True:
-        r.set(choice(GUIDS), getrandbits(SIZE_OF_VALUE))
+        p.set(choice(GUIDS), getrandbits(SIZE_OF_VALUE))
+        i += 1
+
+        if i % PIPELINE_FACTOR == 0:
+            p.execute()
         #r.get('foo'):q
 
 
