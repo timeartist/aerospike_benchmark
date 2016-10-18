@@ -1,13 +1,13 @@
 from threading import Thread
 from uuid import uuid4
-from random import selection, getrandbits
+from random import choice, getrandbits
 
 from redis import StrictRedis, ConnectionPool
 
 
-NUMBER_OF_CONNECTIONS = 10
-NUMBER_OF_THREADS = 50
-NUMBER_OF_KEYS = 100
+NUMBER_OF_CONNECTIONS = 1
+NUMBER_OF_THREADS = 100
+NUMBER_OF_KEYS = 1000
 SIZE_OF_VALUE = 8*10*1024
 
 GUIDS = []
@@ -20,7 +20,7 @@ def hello_dummy():
     r = R()
     while True:
         r.set(choice(GUIDS), getrandbits(SIZE_OF_VALUE))
-        #r.get('foo')
+        #r.get('foo'):q
 
 
 if __name__ == '__main__':
