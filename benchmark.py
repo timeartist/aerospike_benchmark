@@ -10,6 +10,7 @@ from fixture.aerospike_fixture import AerospikeFixture
 
 OBJECT_SIZE = 20480
 TEST_TIME = 10
+NUMBER_OF_THREADS = 1
 TIMEOUT = Event()
 
 def benchmark_test(TestFixture, counter, **kwargs):
@@ -32,9 +33,9 @@ if __name__ == '__main__':
     timer.start()
     
     
-    for i in range(50):
-        #T = Thread(target=benchmark_test, args=(RedisFixture, counter), kwargs={})
-        T = Thread(target=benchmark_test, args=(AerospikeFixture, counter), kwargs={'hosts':[('54.173.233.78', 3000)]})
+    for i in range(NUMBER_OF_THREADS):
+#        T = Thread(target=benchmark_test, args=(RedisFixture, counter), kwargs={'host':'redis-13034.lace.demo-rlec.redislabs.com', 'port':13034})
+        T = Thread(target=benchmark_test, args=(AerospikeFixture, counter), kwargs={'hosts':[('172.31.12.144', 3000)]})
         T.start()
         threads.append(T)
     
